@@ -11,7 +11,7 @@
 
 - [x] Get covid data
 - [x] Group trips data by day
-- [ ] Calculate correlation between bss trips and covid data
+- [x] Calculate correlation between bss trips and covid data
 - [ ] Plot the evolution of the following variables: 
      - [ ] Number of trips
      - [ ] Average of trip_duration
