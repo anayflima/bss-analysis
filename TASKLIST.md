@@ -1,8 +1,8 @@
 # Overview
 
 # Data Treatment
-- [ ] Adapt existing code to new data
-- [ ] Modularize
+- [x] Adapt existing code to new data
+- [x] Modularize
 - [ ] Script to run complete trips data treatment
 - [ ] Stations treatment
 
