@@ -28,15 +28,22 @@ trips = dp.transform_to_time_series(trips, 'starttime')
 trips = dp.calculate_and_add_age_column(trips)
 
 dg = DataGrouping(trips)
-grouped_trips = dg.group_all_trips_data()
+grouped_trips_day = dg.group_all_trips_data()
 
 second = time.time()
-print('Group trips completed. Time = {time}'.format(time = second - first))
+print('Group trips by day completed. Time = {time}'.format(time = second - first))
 
-grouped_trips.to_csv(destination_folder_path + 'trips_grouped_by_day.csv')
+mean_grouped_trips_month, std_grouped_trips_month = dg.group_by_month(grouped_trips_day)
 
 third = time.time()
-print('Save to csv completed. Time = {time}'.format(time = third - second))
+print('Group trips by month completed. Time = {time}'.format(time = third - second))
+
+grouped_trips_day.to_csv(destination_folder_path + 'trips_grouped_by_day.csv')
+mean_grouped_trips_month.to_csv(destination_folder_path + 'trips_grouped_by_month_mean.csv')
+std_grouped_trips_month.to_csv(destination_folder_path + 'trips_grouped_by_month_std.csv')
+
+fourth = time.time()
+print('Save to csv completed. Time = {time}'.format(time = fourth - third))
 
 end = time.time()
 

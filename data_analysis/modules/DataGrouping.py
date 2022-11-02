@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 class DataGrouping():
     def __init__(self, df):
@@ -31,6 +32,11 @@ class DataGrouping():
         grouped_df = grouped_df.rename(columns={variable: 'number_of_trips'})
         return grouped_df
     
+    def group_by_month(self, df_grouped_by_day):
+        mean_df = df_grouped_by_day.groupby(pd.Grouper(freq='MS')).mean()
+        std_df = df_grouped_by_day.groupby(pd.Grouper(freq='MS')).std()
+        return mean_df, std_df
+
     def group_all_trips_data(self):
         output_df = self.find_number_daily_occurrences()
 
@@ -43,3 +49,4 @@ class DataGrouping():
             output_df = pd.merge(output_df, variable_df, left_index=True, right_index=True)
 
         return output_df
+    
