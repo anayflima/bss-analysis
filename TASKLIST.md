@@ -8,7 +8,7 @@
 
 # Data analysis
 
-- [ ] Get covid data
+- [x] Get covid data
 - [ ] Calculate correlation between bss trips and covid data
 - [ ] Plot the evolution of the following variables: 
      - [ ] Number of trips
