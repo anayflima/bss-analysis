@@ -10,13 +10,14 @@
 # Data analysis
 
 - [x] Get covid data
-- [x] Group trips data by day
+- [x] Group trips data by day and month
 - [x] Calculate correlation between bss trips and covid data
 - [ ] Plot the evolution of the following variables: 
      - [ ] Number of trips
      - [ ] Average of trip_duration
      - [ ] Age of people
      - [ ] Trip distance
+- [ ] Chow test to verify if there is a structural break after COVID
 - [ ] Modularize
      - [ ] Save all plots in a folder
      - [ ] Transform plots to a pdf or latex file
