@@ -3,7 +3,7 @@
 # Data Treatment
 - [x] Adapt existing code to new data
 - [x] Modularize
-- [ ] Script to run complete trips data treatment
+- [x] Script to run complete trips data treatment
 - [ ] Stations treatment
 
 # Data analysis
