@@ -4,6 +4,7 @@
 - [x] Adapt existing code to new data
 - [x] Modularize
 - [x] Script to run complete trips data treatment
+- [] Add load trips module
 - [ ] Stations treatment
 
 # Data analysis
