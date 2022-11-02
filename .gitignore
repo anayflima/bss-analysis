@@ -2,8 +2,12 @@ data
 
 # pycache
 
-treatment/modules/__pycache__
+data_treatment/modules/__pycache__/
+data_analysis/modules/__pycache__
+load_trips/modules/__pycache__/
+tembici/__pycache__/
 
 # .ipynb_
 analysis/.ipynb_checkpoints
-treatment/.ipynb_checkpoints
+
+sandbox.ipynb
