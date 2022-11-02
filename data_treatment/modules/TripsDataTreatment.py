@@ -1,8 +1,9 @@
 import pandas as pd
 import glob
 import os
-import time
 print(os.getcwd())
+import sys
+sys.path.append('./data_treatment')
 from modules.DataTreatment import DataTreatment
 
 class TripsDataTreatment(DataTreatment):
@@ -80,7 +81,6 @@ class TripsDataTreatment(DataTreatment):
             2 - Padronize data frames, fixing accents and column names
             3 - Padronize filenames
         '''
-        start = time.time()
 
         print('Transforming xlsx to csv')
         self.transform_xlsx_to_csv_and_copy_to_destination_folder()
@@ -93,8 +93,4 @@ class TripsDataTreatment(DataTreatment):
 
         print('Padronizing filenames')
         self.padronize_filenames()
-
-        end = time.time()
-
-        print('Time to complete trip data treatment: {time}'.format(time = end - start))
 

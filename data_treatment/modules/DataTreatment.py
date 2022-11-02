@@ -1,7 +1,8 @@
 import pandas as pd
 import glob
 import shutil
-import os
+import sys
+sys.path.append('./data_treatment')
 
 class DataTreatment:
     def __init__(self, source_folder_path, destination_folder_path, filename = ''):
@@ -19,8 +20,6 @@ class DataTreatment:
             filename = self.filename + '.xlsx'
         
         print(self.source_folder_path + filename)
-
-        print(os.getcwd())
 
         for f in glob.glob(self.source_folder_path + filename):
 
