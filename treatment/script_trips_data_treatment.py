@@ -1,4 +1,4 @@
-from TripsDataTreatment import TripsDataTreatment
+from modules.TripsDataTreatment import TripsDataTreatment
 
 source_folder_path = './data/trips/test/original_data/'
 destination_folder_path = './data/trips/test/treated_data/'

@@ -2,7 +2,8 @@ data
 
 # pycache
 
-treatment/__pycache__
+treatment/modules/__pycache__
 
 # .ipynb_
 analysis/.ipynb_checkpoints
+treatment/.ipynb_checkpoints

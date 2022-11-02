@@ -2,7 +2,8 @@ import pandas as pd
 import glob
 import os
 import time
-from DataTreatment import DataTreatment
+print(os.getcwd())
+from modules.DataTreatment import DataTreatment
 
 class TripsDataTreatment(DataTreatment):
     def fix_column_names(self, df):
