@@ -1,0 +1,48 @@
+import pandas as pd
+import numpy as np
+import pandas_bokeh
+import os
+import sys
+sys.path.append('./data_analysis')
+
+if 'data_analysis' in os.getcwd():
+    data_folder = '../data/'
+else:
+    data_folder = './data/'
+
+source_folder_path = data_folder + 'trips/analysis/'
+destination_folder_path = data_folder + 'charts/'
+
+covid_data = pd.read_csv(data_folder + 'covid/treated_data/data.csv')
+trips = pd.read_csv(source_folder_path + 'trips_grouped_by_month_mean.csv')
+
+from modules.DataPreparation import DataPreparation
+dp = DataPreparation()
+
+covid_data = dp.transform_to_datetime(covid_data, ['date'])
+covid_data = dp.transform_to_time_series(covid_data, 'date', drop=True)
+
+trips = dp.transform_to_datetime(trips, ['date'])
+trips = dp.transform_to_time_series(trips, 'date', drop = True)
+
+trips_and_covid = pd.merge(trips, covid_data, left_index=True,
+                            right_index=True, how = 'left')
+
+trips_and_covid['date_trips'] = trips_and_covid.index
+
+variables = ['number_of_trips', 'tripduration', 'new_deaths_ma']
+
+pandas_bokeh.output_file(destination_folder_path + 'monthly_'+ variables[0]
+                            + variables[1] + variables[2]+  '_range' + '.html')
+
+trips_and_covid.plot_bokeh(
+    kind='line',
+    figsize=(900, 400),
+    sizing_mode="scale_width",
+    rangetool=True,
+    x='date_trips',
+    y=variables,
+    xlabel='Variable',
+    ylabel='Date',
+    title='Trips variable from 2018 to 2022',
+)
