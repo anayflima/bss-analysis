@@ -19,12 +19,26 @@ class DataPreparation():
         df = df.rename_axis('date')
         return df
     
+    def to_datetime(self, row):
+        try:
+            row = float(row)
+            output = pd.to_datetime(row, format='%Y')
+        except:
+            try:
+                output = pd.to_datetime(row)
+            except:
+                # print(row)
+                output = None
+        return output
+    
     def calculate_and_add_age_column(self, df):
-        df['birth_year'] = pd.to_datetime(df['birth_year'], errors='coerce', format='%Y')
+        # print('birth_year that could not be transformed')
+        df['birth_year'] = df['birth_year'].apply(self.to_datetime)
         df['age'] = df["starttime"].dt.year - df["birth_year"].dt.year
         # To avoid warning message from python: 
         # "A value is trying to be set on a copy of a slice from a DataFrame"
-        pd.options.mode.chained_assignment = None  # default='warn'
+        # pd.options.mode.chained_assignment = None  # default='warn'
 
         df['age'][(df['age'] < 0) | (df['age'] > 100) ] = None
+        # print(df['age'])
         return df
