@@ -1,13 +1,18 @@
 data
 
-# pycache
+virtualenv
 
+# sandbox
+sandbox.ipynb
+sand.py
+
+# pycache
 data_treatment/modules/__pycache__/
 data_analysis/modules/__pycache__
 load_trips/modules/__pycache__/
 tembici/__pycache__/
 
 # .ipynb_
-analysis/.ipynb_checkpoints
-
-sandbox.ipynb
+.ipynb_checkpoints
+data_analysis/.ipynb_checkpoints
+load_trips/.ipynb_checkpoints
