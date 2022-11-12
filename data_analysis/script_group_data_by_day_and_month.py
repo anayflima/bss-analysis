@@ -16,9 +16,12 @@ else:
     data_folder = './data/'
 
 source_folder_path = data_folder + 'trips/loaded_trips/'
+# source_folder_path = data_folder + 'trips/test/loaded_trips/'
 destination_folder_path = data_folder + 'trips/analysis/'
+# destination_folder_path = data_folder + 'trips/test/analysis/'
 
 trips = pd.read_csv(source_folder_path + 'all_trips.csv')
+# trips = pd.read_csv(source_folder_path + 'trips_test.csv')
 first = time.time()
 print('Read csv completed. Time = {time}'.format(time = first - start))
 
