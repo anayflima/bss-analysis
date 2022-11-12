@@ -24,7 +24,7 @@
      - [ ] Save all plots in a folder
      - [ ] Transform plots to a pdf or latex file
 - [ ] Script to run complete trips data analysis and export
-- [ ] Plot trips distribution histogram for trip duration and age
+- [x] Plot trips distribution histogram for trip duration and age
      -  [ ] delivery was the cause of trip duration increase? 
 - [ ] In plots, make y axis lower limit equal to zero
 - [ ] Find flow difference
