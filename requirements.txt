@@ -1,0 +1,4 @@
+holidays==0.16
+pandas_bokeh==0.5.5
+chowtest==0.1.4
+matplotlib==3.5.3
