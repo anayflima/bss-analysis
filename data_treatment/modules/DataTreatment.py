@@ -28,7 +28,7 @@ class DataTreatment:
 
             file_name = file_name.split('/')[-1]
 
-            xls = pd.read_excel(f, usecols='B:F')
+            xls = pd.read_excel(f)
 
             file_path = self.destination_folder_path + file_name + '.csv'
             
