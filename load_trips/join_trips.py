@@ -1,9 +1,17 @@
 import time
 import pandas as pd
+import sys
+sys.path.append('./load_trips')
+import os
+
+if 'load_trips' in os.getcwd():
+    data_folder = '../data/'
+else:
+    data_folder = './data/'
 
 start = time.time()
 
-data_folder = '../data/'
+
 folder_path = data_folder + 'trips/loaded_trips/'
 
 trips_2018 = pd.read_csv(folder_path + 'trips_2018.csv')
