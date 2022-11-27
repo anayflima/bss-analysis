@@ -31,13 +31,13 @@ dg = DataGrouping(trips)
 
 grouped_trips_day = trips
 
-mean_grouped_trips_month, std_grouped_trips_month = dg.group_by_given_freq(grouped_trips_day, freq='MS')
+mean_grouped_trips_week, std_grouped_trips_week = dg.group_by_given_freq(grouped_trips_day, freq='W')
 
 third = time.time()
-print('Group trips by month completed. Time = {time}'.format(time = third - first))
+print('Group trips by week completed. Time = {time}'.format(time = third - first))
 
-mean_grouped_trips_month.to_csv(destination_folder_path + 'trips_grouped_by_month_mean.csv')
-std_grouped_trips_month.to_csv(destination_folder_path + 'trips_grouped_by_month_std.csv')
+mean_grouped_trips_week.to_csv(destination_folder_path + 'trips_grouped_by_week_mean.csv')
+std_grouped_trips_week.to_csv(destination_folder_path + 'trips_grouped_by_week_std.csv')
 
 fourth = time.time()
 print('Save to csv completed. Time = {time}'.format(time = fourth - third))

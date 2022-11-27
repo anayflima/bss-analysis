@@ -32,15 +32,28 @@ class DataGrouping():
         grouped_df = grouped_df.rename(columns={variable: 'number_of_trips'})
         return grouped_df
     
-    def group_by_month(self, df_grouped_by_day):
-        mean_df = df_grouped_by_day.groupby(pd.Grouper(freq='MS')).mean()
-        std_df = df_grouped_by_day.groupby(pd.Grouper(freq='MS')).std()
+    def find_number_occurrences_given_freq(self, freq = 'MS'):
+        '''
+            Returns data frame with number of trips in each day
+        '''
+        variable = 'starttime'
+        daily_trips_number = self.df[variable].groupby(pd.Grouper(freq=freq)).count()
+        grouped_df = pd.DataFrame(daily_trips_number)
+        grouped_df = grouped_df.rename(columns={variable: 'number_of_trips'})
+        return grouped_df
+    
+    def group_by_given_freq(self, freq = 'MS'):
+        output_df = self.find_number_occurrences_given_freq(freq)
+        mean_df = self.df.groupby(pd.Grouper(freq=freq)).mean()
+        std_df = self.df.groupby(pd.Grouper(freq=freq)).std()
+        mean_df = pd.merge(output_df, mean_df, left_index=True, right_index=True)
+        std_df = pd.merge(output_df, std_df, left_index=True, right_index=True)
         return mean_df, std_df
 
     def group_all_trips_data(self):
         output_df = self.find_number_daily_occurrences()
 
-        for variable in ['tripduration', 'hour', 'age']:
+        for variable in ['tripduration', 'hour', 'age', 'distance']:
             variable_df = self.find_daily_average(variable)
             output_df = pd.merge(output_df, variable_df, left_index=True, right_index=True)
 

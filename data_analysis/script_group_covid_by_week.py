@@ -24,7 +24,7 @@ covid_data = dp.transform_to_time_series(covid_data, 'date', drop=True)
 
 dg = DataGrouping(covid_data)
 
-mean_grouped_trips_month, std_grouped_trips_month = dg.group_by_given_freq(covid_data, freq='MS')
+mean_grouped_trips_week, std_grouped_trips_week = dg.group_by_given_freq(covid_data, freq='W')
 
-mean_grouped_trips_month.to_csv(destination_folder_path + 'covid_grouped_by_month.csv')
-std_grouped_trips_month.to_csv(destination_folder_path + 'covid_grouped_by_month_std.csv')
+mean_grouped_trips_week.to_csv(destination_folder_path + 'covid_grouped_by_week.csv')
+std_grouped_trips_week.to_csv(destination_folder_path + 'covid_grouped_by_week_std.csv')
