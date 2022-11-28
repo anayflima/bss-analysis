@@ -35,9 +35,6 @@ class DataPreparation():
         # print('birth_year that could not be transformed')
         df['birth_year'] = df['birth_year'].apply(self.to_datetime)
         df['age'] = df["starttime"].dt.year - df["birth_year"].dt.year
-        # To avoid warning message from python: 
-        # "A value is trying to be set on a copy of a slice from a DataFrame"
-        # pd.options.mode.chained_assignment = None  # default='warn'
 
         df['age'][(df['age'] < 0) | (df['age'] > 100) ] = None
         # print(df['age'])
