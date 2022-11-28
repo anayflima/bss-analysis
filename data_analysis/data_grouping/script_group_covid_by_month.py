@@ -1,13 +1,19 @@
-
 import pandas as pd
 import sys
 sys.path.append('./data_analysis')
+sys.path.append('../../data_analysis')
 import os
 
 from modules.DataPreparation import DataPreparation
 from modules.DataGrouping import DataGrouping
 
-if 'data_analysis' in os.getcwd():
+import time
+
+start = time.time()
+
+if 'data_grouping' in os.getcwd():
+    data_folder = '../../data/'
+elif 'data_analysis' in os.getcwd():
     data_folder = '../data/'
 else:
     data_folder = './data/'
