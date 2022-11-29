@@ -13,7 +13,7 @@ start = time.time()
 
 
 # folder_path = data_folder + 'trips/loaded_trips/'
-folder_path = data_folder + 'trips/preprocessing/'
+folder_path = data_folder + 'trips/preprocessed/'
 
 trips_2018 = pd.read_csv(folder_path + 'trips_2018.csv')
 trips_2019 = pd.read_csv(folder_path + 'trips_2019.csv')

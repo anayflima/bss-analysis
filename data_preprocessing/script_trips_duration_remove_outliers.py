@@ -15,7 +15,7 @@ else:
     data_folder = './data/'
 
 source_folder_path = data_folder + 'trips/loaded_trips/'
-destination_folder_path = data_folder + 'trips/preprocessing/'
+destination_folder_path = data_folder + 'trips/preprocessed/'
 
 second = time.time()
 for year in ['2018', '2019', '2020', '2021', '2022']:

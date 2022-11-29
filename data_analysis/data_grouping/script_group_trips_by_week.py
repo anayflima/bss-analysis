@@ -19,9 +19,9 @@ else:
     data_folder = './data/'
 
 # source_folder_path = data_folder + 'trips/loaded_trips/'
-source_folder_path = data_folder + 'trips/preprocessing/'
+source_folder_path = data_folder + 'trips/preprocessed/'
 # destination_folder_path = data_folder + 'trips/new_grouping/'
-destination_folder_path = data_folder + 'trips/preprocessing/grouped/'
+destination_folder_path = data_folder + 'trips/preprocessed/grouped/'
 
 trips = pd.read_csv(source_folder_path + 'all_trips.csv')
 # trips = pd.read_csv(source_folder_path + 'trips_test.csv')
