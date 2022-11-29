@@ -1,13 +1,13 @@
 import os
 import sys
-sys.path.append('./load_trips')
+sys.path.append('./data_loading')
 sys.path.append('../')
 import tembici.load_trips as lt
 import time
 
 start = time.time()
 
-if 'load_trips' in os.getcwd():
+if 'data_loading' in os.getcwd():
     data_folder = '../data/'
 else:
     data_folder = './data/'
