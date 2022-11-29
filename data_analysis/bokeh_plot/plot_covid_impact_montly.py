@@ -1,11 +1,15 @@
 import pandas as pd
-import numpy as np
 import pandas_bokeh
-import os
 import sys
 sys.path.append('./data_analysis')
+sys.path.append('../../data_analysis')
+import os
 
-if 'data_analysis' in os.getcwd():
+from modules.DataPreparation import DataPreparation
+
+if 'bokeh_plot' in os.getcwd():
+    data_folder = '../../data/'
+elif 'data_analysis' in os.getcwd():
     data_folder = '../data/'
 else:
     data_folder = './data/'

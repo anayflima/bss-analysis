@@ -46,7 +46,7 @@ pandas_bokeh.output_file(destination_folder_path + 'monthly_covid'+
 output_file("twin_axis.html")
 
 y_overlimit = 0.05 # show y axis below and above y min and max value
-p = figure(1000)
+p = figure()
 
 # FIRST AXIS
 p.line(trips_and_covid[x_column], trips_and_covid[y_column1],

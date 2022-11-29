@@ -1,12 +1,16 @@
 import pandas as pd
-import numpy as np
 import pandas_bokeh
-from bokeh.models import LinearAxis, Range1d
-import os
+from bokeh.models import Range1d
 import sys
 sys.path.append('./data_analysis')
+sys.path.append('../../data_analysis')
+import os
 
-if 'data_analysis' in os.getcwd():
+from modules.DataPreparation import DataPreparation
+
+if 'bokeh_plot' in os.getcwd():
+    data_folder = '../../data/'
+elif 'data_analysis' in os.getcwd():
     data_folder = '../data/'
 else:
     data_folder = './data/'
@@ -24,17 +28,15 @@ trips['date_trips'] = trips.index
 
 pandas_bokeh.output_file(destination_folder_path + 'daily.html')
 
-
-
 trips.plot_bokeh(
     kind='line',
     x='date_trips',
     y=['number_of_trips', 'tripduration', 'age'],
-    extra_y_range={
-        'age_range': Range1d(
-        start=trips['age'].min(),
-        end=trips['age'].max(),
-    )},
+    # extra_y_range={
+    #     'age_range': Range1d(
+    #     start=trips['age'].min(),
+    #     end=trips['age'].max(),
+    # )},
     xlabel='Variable',
     ylabel='Date',
     title='Trips variable from 2018 to 2022'
