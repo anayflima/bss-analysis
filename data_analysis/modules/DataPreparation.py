@@ -18,24 +18,3 @@ class DataPreparation():
         df = df.sort_index()
         df = df.rename_axis('date')
         return df
-    
-    def to_datetime(self, row):
-        try:
-            row = float(row)
-            output = pd.to_datetime(row, format='%Y')
-        except:
-            try:
-                output = pd.to_datetime(row)
-            except:
-                # print(row)
-                output = None
-        return output
-    
-    def calculate_and_add_age_column(self, df):
-        # print('birth_year that could not be transformed')
-        df['birth_year'] = df['birth_year'].apply(self.to_datetime)
-        df['age'] = df["starttime"].dt.year - df["birth_year"].dt.year
-
-        df['age'][(df['age'] < 0) | (df['age'] > 100) ] = None
-        # print(df['age'])
-        return df
