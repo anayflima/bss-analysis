@@ -89,7 +89,7 @@ class TripsDataTreatment(DataTreatment):
 
         for date in incorrect_files_date:
             filename = 'trips_BikeSampa_' + date + '.csv'
-            if (os.path.exists(filename)):
+            if (os.path.isfile(self.destination_folder_path + filename)):
                 correct_date = date[:4] + '-' + date[4:6] + '-' + date[6:8]
                 corrected_filename = 'trips_BikeSampa_' + correct_date +'.csv'
                 os.rename(self.destination_folder_path + filename,

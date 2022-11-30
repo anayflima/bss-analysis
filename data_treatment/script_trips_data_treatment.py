@@ -11,8 +11,8 @@ if 'data_treatment' in os.getcwd():
 else:
     data_folder = './data/'
 
-source_folder_path = data_folder + 'trips/test/original_data/'
-destination_folder_path = data_folder + 'trips/test/treated_data/'
+source_folder_path = data_folder + 'trips/original_data/'
+destination_folder_path = data_folder + 'trips/treated_data/'
 
 '''
 To treat only files that follow a specific name pattern:
