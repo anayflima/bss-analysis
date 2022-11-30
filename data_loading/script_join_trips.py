@@ -12,8 +12,8 @@ else:
 start = time.time()
 
 
-# folder_path = data_folder + 'trips/loaded_trips/'
-folder_path = data_folder + 'trips/preprocessed/'
+folder_path = data_folder + 'trips/loaded_trips/'
+# folder_path = data_folder + 'trips/preprocessed/'
 
 trips_2018 = pd.read_csv(folder_path + 'trips_2018.csv')
 trips_2019 = pd.read_csv(folder_path + 'trips_2019.csv')
@@ -34,15 +34,15 @@ print('Join trips completed. Time = {time}'.format(time = second - first))
 
 # Make index unique
 
-trips = trips.drop('Index', axis = 1)
-trips.insert(0, 'Index', range(0,0 + len(trips)))
+# trips = trips.drop('Index', axis = 1)
+# trips.insert(0, 'Index', range(0,0 + len(trips)))
 
-trips = trips.set_index('Index')
+# trips = trips.set_index('Index')
 
 third = time.time()
 print('Set index completed. Time = {time}'.format(time = third - second))
 
-trips.to_csv(folder_path + 'all_trips.csv')
+trips.to_csv(folder_path + 'all_trips.csv', index=False)
 
 fourth = time.time()
 print('Save to csv completed. Time = {time}'.format(time = fourth - third))
