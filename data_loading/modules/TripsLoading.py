@@ -1,10 +1,7 @@
 import glob
 import pandas as pd
-import sys
 import holidays
-
-# sys.path.append("..")
-
+import numpy as np
 class TripsLoading():
     def __init__(self):
         years = range(2018, 2022)
@@ -13,65 +10,107 @@ class TripsLoading():
                         for d in sp_holidays]
         self.sp_holidays = sp_holidays
     
+    def convert_to_datetime(self, date):
+        if '/' in date:
+            date_transformed = pd.to_datetime(date, format='%d/%m/%Y %H:%M')
+        else:
+            date_transformed = pd.to_datetime(date, format='%Y-%m-%d %H:%M')
+        # print('{date} -> {date_transformed}'.format(date = date, date_transformed = date_transformed))
+        return date_transformed
+    
     def create_time_features(self, trips):
         """
         ** Internal use function **
-        
+
         Preparation of the trips dataframe.
         """
 
-        trips['starttime'] = pd.to_datetime(trips['starttime'])
         trips['per_day'] = trips['starttime'].dt.to_period('d')
         trips['hour'] = trips['starttime'].dt.hour
         trips['week_day'] = trips['starttime'].dt.weekday
         trips['weekend'] = trips['week_day'] >= 5
         trips['holiday'] = trips['per_day'].isin(self.sp_holidays)
-
+    
     def remove_timezone(self, row):
         return row.tz_localize(None)
+    
+    def delete_unnecessary_columns(self, trips):
+        trips = trips.drop(['trip_id',
+                            'initial_station_latitude',
+                            'initial_station_longitude',
+                            'final_station_latitude',
+                            'final_station_longitude'], axis = 1, errors = 'ignore')
+        return trips
 
     def load_trips_files(self, file_filter, show=False):
-        print('load_trips_files')
         trip_files = glob.glob(file_filter)
         df_list = []
         for f in trip_files:
             if show:
                 print(f)
-            df = pd.read_csv(f, parse_dates=['start_date', 'end_date'])
+            df = pd.read_csv(f)
             df_list.append(df.drop_duplicates())
         
         trips = pd.concat(df_list,sort=False)
         trips.rename(columns={
                         'start_date': 'starttime', 
                         'end_date': 'stoptime', 
-                        'ano_nasc': 'birth year',
+                        'ano_nasc': 'birth_year',
                         'user_type': 'usertype',
                         'duration_seconds': 'tripduration',
                     }, inplace=True)
-
+        
+        trips['starttime'] = trips['starttime'].apply(self.convert_to_datetime)
         trips['starttime'] = trips['starttime'].apply(self.remove_timezone)
+        trips['stoptime'] = trips['stoptime'].apply(self.convert_to_datetime)
         trips['stoptime'] = trips['stoptime'].apply(self.remove_timezone)
+
+        if 'birth_year' not in trips.columns:
+            trips["birth_year"] = np.nan
+        
+        self.calculate_and_add_age_column(trips)
+
         self.create_time_features(trips)
+
+        trips = self.delete_unnecessary_columns(trips)
 
         trips.insert(0, 'Index', range(0,0 + len(trips)))
         trips = trips.reset_index(drop=True)
         trips = trips.set_index('Index')
 
-        trips['starttime'] = trips['starttime'].apply(self.remove_timezone)
         return trips
+    
+    def calculate_and_add_age_column(self, df):
+        df['birth_year'] = df['birth_year'].apply(self.to_datetime)
+        df['age'] = df["starttime"].dt.year - df["birth_year"].dt.year
+        # df['age'] = df['age'].apply(self.to_int)
+        print("len(df[(df['age'] < 0) | (df['age'] > 100)])")
+        print(len(df[(df['age'] < 0) | (df['age'] > 100)]))
+        print(df['age'].isna().sum())
+        df.loc[(df['age'] < 0) | (df['age'] > 100), 'age'] = None
+        print(df['age'].isna().sum())
+        return df
+    
+    def to_datetime(self, row):
+        try:
+            row = float(row)
+            output = pd.to_datetime(row, format='%Y')
+        except:
+            try:
+                output = pd.to_datetime(row)
+            except:
+                output = None
+        return output
 
-    def women(trips):
-        """Filter trips rode by women, returning a new dataframe."""
-        return trips[trips['gender'] == 'Fem']
-
-    def men(trips):
-        """Filter trips rode by men, returning a new dataframe."""
-        return trips[trips['gender'] == 'Masc']
-
-    gender_functions = [lambda trips: trips, women, men]
-
-    def select_age_range(trips,age_range):
-        trips = trips[~trips['birth year'].isnull()]
-        trips = trips[(trips['starttime'].dt.year - trips['birth year'] >= age_range[0])
-                    & (trips['starttime'].dt.year - trips['birth year'] <= age_range[1])]
+    # def to_int(self, row):
+    #     if math.isnan(row):
+    #         return row
+    #     else:
+    #         print(int(row))
+    #         return int(row)
+    
+    def select_age_range(self, trips, age_range):
+        trips = trips[~trips['birth_year'].isnull()]
+        trips = trips[(trips['starttime'].dt.year - trips['birth_year'] >= age_range[0])
+                    & (trips['starttime'].dt.year - trips['birth_year'] <= age_range[1])]
         return trips
