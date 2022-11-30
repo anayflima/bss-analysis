@@ -28,15 +28,15 @@ first = time.time()
 print('Read csv completed. Time = {time}'.format(time = first - start))
 
 dp = DataPreparation()
+
 trips = dp.transform_to_datetime(trips, ['starttime', 'stoptime'])
 trips = dp.transform_to_time_series(trips, 'starttime')
-trips = dp.calculate_and_add_age_column(trips)
 
 second = time.time()
+print('Transformation to time series completed. Time = {time}'.format(time = second - first))
 
 dg = DataGrouping(trips)
 mean_grouped_trips_month, std_grouped_trips_month = dg.group_by_given_freq(freq='MS')
-
 
 third = time.time()
 print('Group trips by month completed. Time = {time}'.format(time = third - second))

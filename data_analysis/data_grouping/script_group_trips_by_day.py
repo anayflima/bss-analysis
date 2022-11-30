@@ -35,13 +35,13 @@ second = time.time()
 print('Transformation to time series completed. Time = {time}'.format(time = second - first))
 
 dg = DataGrouping(trips)
-mean_grouped_trips_week, std_grouped_trips_week = dg.group_by_given_freq(freq='W')
+mean_grouped_trips_day, std_grouped_trips_day = dg.group_by_given_freq(freq='D')
 
 third = time.time()
-print('Group trips by week completed. Time = {time}'.format(time = third - second))
+print('Group trips by day completed. Time = {time}'.format(time = third - second))
 
-mean_grouped_trips_week.to_csv(destination_folder_path + 'trips_grouped_by_week_mean.csv')
-std_grouped_trips_week.to_csv(destination_folder_path + 'trips_grouped_by_week_std.csv')
+mean_grouped_trips_day.to_csv(destination_folder_path + 'trips_grouped_by_day_mean.csv')
+std_grouped_trips_day.to_csv(destination_folder_path + 'trips_grouped_by_day_std.csv')
 
 fourth = time.time()
 print('Save to csv completed. Time = {time}'.format(time = fourth - third))
