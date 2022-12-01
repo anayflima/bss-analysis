@@ -72,3 +72,12 @@ class TripStationsTreatment:
                                         'name': 'end_station_name'})
 
         return merge
+    
+    def find_trip_distance_and_add_column(self, trips, stations_distance_file_path = './data/stations/distance/stations_distance.csv'):
+        stations_distances = pd.read_csv(stations_distance_file_path)
+        merge = trips.merge(stations_distances, how = 'left',
+                            left_on=['start_station_id', 'end_station_id'],
+                            right_on=['id_x', 'id_y'])
+
+        merge = merge.drop(['id_x', 'id_y'], axis = 1)
+        return merge
