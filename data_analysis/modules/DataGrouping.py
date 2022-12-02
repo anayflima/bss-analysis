@@ -22,28 +22,34 @@ class DataGrouping():
         grouped_df = pd.DataFrame(grouped_df, columns=[variable])
         return grouped_df
     
-    def find_number_daily_occurrences(self):
+    def find_number_daily_occurrences(self, column_name_count = 'number_of_trips',
+                                variable_count = 'starttime'):
         '''
             Returns data frame with number of trips in each day
         '''
-        variable = 'starttime'
-        daily_trips_number = self.df[variable].groupby(pd.Grouper(freq='D')).count()
+        daily_trips_number = self.df[variable_count].groupby(pd.Grouper(freq='D')).count()
         grouped_df = pd.DataFrame(daily_trips_number)
-        grouped_df = grouped_df.rename(columns={variable: 'number_of_trips'})
+        grouped_df = grouped_df.rename(columns={variable_count: column_name_count})
         return grouped_df
     
-    def find_number_occurrences_given_freq(self, freq = 'MS'):
+    def find_number_occurrences_given_freq(self, freq = 'MS',
+                                column_name_count = 'number_of_trips',
+                                variable_count = 'starttime'):
         '''
             Returns data frame with number of trips in each day
         '''
-        variable = 'starttime'
-        daily_trips_number = self.df[variable].groupby(pd.Grouper(freq=freq)).count()
+        daily_trips_number = self.df[variable_count].groupby(pd.Grouper(freq=freq)).count()
         grouped_df = pd.DataFrame(daily_trips_number)
-        grouped_df = grouped_df.rename(columns={variable: 'number_of_trips'})
+        grouped_df = grouped_df.rename(columns={variable_count: column_name_count})
         return grouped_df
     
-    def group_by_given_freq(self, freq = 'MS'):
-        output_df = self.find_number_occurrences_given_freq(freq)
+    def group_by_given_freq(self, freq = 'MS', column_name_count = 'number_of_trips',
+                            variable_count = 'starttime', covid = False):
+        if covid:
+            output_df = self.df.filter(['date'])
+        else:
+            output_df = self.find_number_occurrences_given_freq(freq, column_name_count,
+                                                            variable_count)
         mean_df = self.df.groupby(pd.Grouper(freq=freq)).mean()
         std_df = self.df.groupby(pd.Grouper(freq=freq)).std()
         mean_df = pd.merge(output_df, mean_df, left_index=True, right_index=True)

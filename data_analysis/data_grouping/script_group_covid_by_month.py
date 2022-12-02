@@ -19,7 +19,7 @@ else:
     data_folder = './data/'
 
 source_folder_path = data_folder + 'covid/treated_data/'
-destination_folder_path = data_folder + 'covid/treated_data/'
+destination_folder_path = data_folder + 'covid/grouped/'
 
 covid_data = pd.read_csv(source_folder_path+ '/data.csv')
 
@@ -30,7 +30,7 @@ covid_data = dp.transform_to_time_series(covid_data, 'date', drop=True)
 
 dg = DataGrouping(covid_data)
 
-mean_grouped_trips_month, std_grouped_trips_month = dg.group_by_given_freq(covid_data, freq='MS')
+mean_grouped_trips_month, std_grouped_trips_month = dg.group_by_given_freq(freq='MS', covid = True)
 
-mean_grouped_trips_month.to_csv(destination_folder_path + 'covid_grouped_by_month.csv')
+mean_grouped_trips_month.to_csv(destination_folder_path + 'covid_grouped_by_month_mean.csv')
 std_grouped_trips_month.to_csv(destination_folder_path + 'covid_grouped_by_month_std.csv')
