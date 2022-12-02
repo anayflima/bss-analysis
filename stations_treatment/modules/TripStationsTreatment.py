@@ -73,6 +73,27 @@ class TripStationsTreatment:
 
         return merge
     
+    def find_station_coordinates_and_add_columns(self, trips, stations_file_path = './data/stations/treated_data/2021.11.08_Endereços-BikeSAMPA.csv'):
+        stations = pd.read_csv(stations_file_path)
+        stations_coord = stations[['id', 'lat', 'lon']]
+        merge = trips.merge(stations_coord, how = 'left', left_on=['start_station_id'],
+                    right_on=['id'])
+
+        merge = merge.drop(['id'], axis = 1)
+
+        merge = merge.rename(columns={'lat': 'lat_start',
+                                    'lon': 'lon_start'})
+
+        merge = merge.merge(stations_coord, how = 'left', left_on=['end_station_id'],
+                            right_on=['id'])
+
+        merge = merge.drop(['id'], axis = 1)
+
+        merge = merge.rename(columns={'lat': 'lat_end',
+                                    'lon': 'lon_end'})
+
+        return merge
+    
     def find_trip_distance_and_add_column(self, trips, stations_distance_file_path = './data/stations/distance/stations_distance.csv'):
         stations_distances = pd.read_csv(stations_distance_file_path)
         merge = trips.merge(stations_distances, how = 'left',

@@ -32,18 +32,18 @@ for year in ['2018', '2019', '2020', '2021', '2022']:
 
     trips = tst.find_station_ids_and_add_columns(trips)
     trips = tst.find_station_names_and_add_columns(trips)
+    trips = tst.find_station_coordinates_and_add_columns(trips)
     trips = tst.find_trip_distance_and_add_column(trips)
 
     dp = DataPreparation()
     trips = dp.transform_to_datetime(trips, ['starttime', 'stoptime'])
     trips = dp.transform_to_time_series(trips, 'starttime')
 
-    print(list(trips.columns))
-
     assert list(trips.columns) == ['tripduration', 'start_station_name_old',
-        'start_station_id', 'starttime', 'end_station_name_old', 'end_station_id',
-        'stoptime', 'birth_year', 'age', 'per_day', 'hour', 'week_day',
-        'weekend', 'holiday','start_station_name','end_station_name', 'distance']
+       'start_station_id', 'starttime', 'end_station_name_old', 'end_station_id',
+       'stoptime', 'birth_year', 'age', 'per_day', 'hour', 'week_day',
+       'weekend', 'holiday','start_station_name','end_station_name',
+       'lat_start', 'lon_start','lat_end', 'lon_end', 'distance']
 
     trips.to_csv(destination_folder_path + 'trips_' + year + '.csv')
 
