@@ -15,7 +15,6 @@ class TripsLoading():
             date_transformed = pd.to_datetime(date, format='%d/%m/%Y %H:%M')
         else:
             date_transformed = pd.to_datetime(date, format='%Y-%m-%d %H:%M')
-        # print('{date} -> {date_transformed}'.format(date = date, date_transformed = date_transformed))
         return date_transformed
     
     def create_time_features(self, trips):
@@ -83,12 +82,7 @@ class TripsLoading():
     def calculate_and_add_age_column(self, df):
         df['birth_year'] = df['birth_year'].apply(self.to_datetime)
         df['age'] = df["starttime"].dt.year - df["birth_year"].dt.year
-        # df['age'] = df['age'].apply(self.to_int)
-        print("len(df[(df['age'] < 0) | (df['age'] > 100)])")
-        print(len(df[(df['age'] < 0) | (df['age'] > 100)]))
-        print(df['age'].isna().sum())
         df.loc[(df['age'] < 0) | (df['age'] > 100), 'age'] = None
-        print(df['age'].isna().sum())
         return df
     
     def to_datetime(self, row):
@@ -101,13 +95,6 @@ class TripsLoading():
             except:
                 output = None
         return output
-
-    # def to_int(self, row):
-    #     if math.isnan(row):
-    #         return row
-    #     else:
-    #         print(int(row))
-    #         return int(row)
     
     def select_age_range(self, trips, age_range):
         trips = trips[~trips['birth_year'].isnull()]
