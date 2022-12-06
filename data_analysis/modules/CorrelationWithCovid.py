@@ -28,7 +28,6 @@ class CorrelationWithCovid:
             file_path = 'trips/preprocessed/grouped/trips_grouped_by_{frequency}_mean.csv'):
         file_path = file_path.format(frequency = self.frequency)
         trips = pd.read_csv(self.data_folder + file_path)  
-        # print(trips)   
         dp = DataPreparation()
         trips = dp.transform_to_datetime(trips, ['date'])
         trips = dp.transform_to_time_series(trips, 'date', drop = True)
@@ -117,13 +116,15 @@ class CorrelationWithCovid:
         
         variables = [variable] + covid_variables
         trips_and_covid_plot = self.trips_and_covid[:].filter(variables)
-        
+
         fig, ax = plt.subplots()
         fig.set_figwidth(20)
         fig.set_figheight(10)
 
+        ax.plot(trips_and_covid_plot.index, trips_and_covid_plot[variable], 'g-', label = variable)
+        
         if show_key_pandemic_moments:
-            ax.axvline(pd.to_datetime('2020-03-24'), color="black", linestyle="--",  label='Lockdown in SP', linewidth = 3.0)
+            ax.axvline(pd.Timestamp('2020-03-24'), color="black", linestyle="--",  label='Lockdown in SP', linewidth = 3.0)
             ax.axvline(pd.to_datetime('2021-11-01'), color="m", linestyle="--",  label='End of COVID-19 restrictions', linewidth = 3.0)
         if show_all_phases:
             ax.axvline(pd.to_datetime('2020-05-27'), color="purple", linestyle="--",  label='Plano SP de retomada consciente')
@@ -131,8 +132,6 @@ class CorrelationWithCovid:
             ax.axvline(pd.to_datetime('2020-11-30'), color="yellow", linestyle="--",  label='Fase Amarela')
             ax.axvline(pd.to_datetime('2021-03-15'), color="red", linestyle="--",  label='Fase Emergencial')
             ax.axvline(pd.to_datetime('2021-08-17'), color="green", linestyle="--",  label='Fase Verde')
-        
-        ax.plot(trips_and_covid_plot.index, trips_and_covid_plot[variable], 'g-', label = variable)
         
         # Verify if a secondary axis is necessary 
         if len(covid_variables) > 0:
