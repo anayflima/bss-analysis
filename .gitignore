@@ -9,10 +9,13 @@ sand.py
 # pycache
 data_treatment/modules/__pycache__/
 data_analysis/modules/__pycache__
-load_trips/modules/__pycache__/
-tembici/__pycache__/
+data_loading/modules/__pycache__/
+stations_treatment/modules/__pycache__
+routes/bikescience/__pycache__
+routes/tembici/__pycache__
+data_analysis/__pycache__
 
 # .ipynb_
 .ipynb_checkpoints
 data_analysis/.ipynb_checkpoints
-load_trips/.ipynb_checkpoints
+data_loading/.ipynb_checkpoints
