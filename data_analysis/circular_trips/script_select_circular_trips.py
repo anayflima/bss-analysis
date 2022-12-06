@@ -3,7 +3,7 @@ import sys
 sys.path.append('./data_analysis')
 sys.path.append('../../data_analysis')
 from modules.DataPreparation import DataPreparation
-from modules.CircularTrips import CircularTrips
+from modules.ParticularTrips import ParticularTrips
 
 import os
 
@@ -17,25 +17,18 @@ else:
 import time
 start = time.time()
 
-source_folder_path = data_folder + 'trips/loaded_trips/'
+source_folder_path = 'trips/preprocessed/'
 destination_folder_path = data_folder + 'trips/analysis_results/'
+file_path = source_folder_path + 'all_trips.csv'
+# file_path = source_folder_path + 'trips_before_covid_test.csv'
 
-trips = pd.read_csv(source_folder_path + 'all_trips.csv')
+pt = ParticularTrips(data_folder)
+pt.import_and_prepare_trips_data(file_path=file_path)
+
 first = time.time()
-print('Read csv completed. Time = {time}'.format(time = first - start))
-print(trips.columns)
+print('Import and prepare data completed. Time = {time}'.format(time = first - start))
 
-dp = DataPreparation()
-trips = dp.transform_to_datetime(trips, ['starttime', 'stoptime'])
-trips = dp.transform_to_time_series(trips, 'starttime')
-second = time.time()
-print('Transform to time series completed. Time = {time}'.format(time = second - first))
-
-df_percentages = pd.DataFrame(columns = ['date', 'percentage'], dtype=object)
-
-ct = CircularTrips()
-trips = ct.convert_distance_to_int(trips)
-circular_trips = ct.find_circular_trips(trips)
+circular_trips = pt.get_circular_trips(pt.trips)
 print('circular_trips')
 print(circular_trips.head())
 
