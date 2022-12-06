@@ -24,7 +24,7 @@ second = time.time()
 print('Read csv completed. Time = {time}'.format(time = second - first))
 dp = DataPreparation()
 trips = dp.transform_to_datetime(trips, ['date'])
-trips = dp.transform_to_time_series(trips, 'date')
+trips = dp.transform_to_time_series(trips, 'date', drop = True)
 trips_treated = trips.copy(deep=True)
 variable = 'tripduration'
 limit_outlier = 12*3600
