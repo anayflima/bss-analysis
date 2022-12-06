@@ -40,3 +40,4 @@
 - [x] Set all trip duration variables with more than 12 hours to null
 - [x] Script to run all trip loading and data treatment/preprocessing flows
 - [ ] Plot the evolution of trips variables using the rolling average for the last 30 days
+- [x] Add latitude and longitude columns to the load_trips script
