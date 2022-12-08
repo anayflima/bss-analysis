@@ -44,4 +44,4 @@ for year in ['2018','2019','2020','2021','2022']:
             percentage = pt.percentage['circular']
             df_percentages = df_percentages.append({'date': year+'-'+str(month), 'percentage': percentage}, ignore_index=True)
 
-df_percentages.to_csv(destination_folder_path + 'circular_trips_percentage.csv', index=False)
+df_percentages.to_csv(destination_folder_path + 'circular_trips_percentage_other.csv', index=False)
