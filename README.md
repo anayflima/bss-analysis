@@ -19,4 +19,17 @@ aggregate data by ____ (filter per file name)
 - add age column
 - add distance column
 
+First, you have to run the load trips script:
+
+```
+python3 data_loading/script_load_all_trips.py
+```
+
+```
+python3 data_preprocessing/script_trip_duration_remove_outliers_all_trips.py
+```
+
+```
+python3 data_analysis/script_separate_trips_covid.py
+```
 
