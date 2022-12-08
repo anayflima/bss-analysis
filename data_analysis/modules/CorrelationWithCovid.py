@@ -167,7 +167,10 @@ class CorrelationWithCovid:
         ax.set_ylim(0)
         ax.set_xlabel('Date', fontsize=20, labelpad = 20)
         ax.set_ylabel(variable, color='k', fontsize=20, labelpad = 20)
-        ax.legend(bbox_to_anchor = (1.15, 0.35), loc = 'upper left', fontsize = 18)
+        if len(covid_variables) == 0:
+            ax.legend(bbox_to_anchor = (1, 0.35), loc = 'upper left', fontsize = 18)
+        else:
+            ax.legend(bbox_to_anchor = (1.15, 0.35), loc = 'upper left', fontsize = 18)
         
         # Set tick font size
         for label in (ax.get_xticklabels() + ax.get_yticklabels()):
@@ -179,7 +182,7 @@ class CorrelationWithCovid:
         plt.axis([None, None, 0, None])
         
         if save:
-            filename = variable + '_vs_'+ covid_variable + '.png'
+            filename = variable + '_vs_'+ str(covid_variables) + '.png'
             plt.savefig(self.destination_folder_path + 'versus_covid/' + filename)
         
         plt.show()
