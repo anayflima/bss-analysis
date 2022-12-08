@@ -146,18 +146,27 @@ Time to complete data grouping: 128.0744366645813
 ```python3 data_loading/script_load_all_trips.py ```
 Time to complete all trips data loading: 1940.8311522006989
 
+```python3 data_loading/script_load_all_trips.py ```
+Time to complete adding columns: 2886.8249270915985
+Time to complete all trips data loading: 3113.757824420929
+
 ```python3 data_loading/script_load_trips_separated_by_year.py```
 
-Time to complete trips data loading for year 2018: 253.9763445854187
-Time to complete trips data loading for year 2019: 673.0248618125916
-Time to complete trips data loading for year 2020: 551.5179438591003
-Time to complete trips data loading for year 2021: 371.62895917892456
-Time to complete trips data loading for year 2022: 163.98176503181458
-Time to complete trips data loading, separated by year: 2014.1299316883087
+ python3 data_loading/script_load_trips_separated_by_year.py 
+Time to complete trips data loading for year 2018: 262.47457814216614
+Time to complete trips data loading for year 2019: 732.0868294239044
+Time to complete trips data loading for year 2020: 573.6293625831604
+Time to complete trips data loading for year 2021: 372.20327067375183
+Time to complete trips data loading for year 2022: 162.44092321395874
+Time to complete trips data loading, separated by year: 2102.835031747818
 
 ```python3 data_analysis/circular_trips/script_circular_trips_percentage.py```
 Circular trips selection completed. Time = 124.24235844612122
 
+```python3 data_analysis/particular_trips/script_particular_trips_percentage.py```
+Data preparation completed. Time = 210.30523920059204
+Monthly percentages calculation completed. Time = 5.183893442153931
+Percentage of particular trips completed. Time = 215.48913264274597
 
 ## Problems with data treatment
 
