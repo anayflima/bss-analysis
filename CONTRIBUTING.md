@@ -172,3 +172,67 @@ Percentage of particular trips completed. Time = 215.48913264274597
 
 ### Birth years that do not exist
 
+
+
+## WITH A i7 core COMPUTER
+
+```python3 data_treatment/script_trips_data_treatment.py```
+
+Transforming xlsx to csv
+Copying csv files to destination folder
+Fixing accents and column names
+Padronizing filenames
+DataTreatment completed
+Time to complete trip data treatment: 357.31073665618896
+
+```python3 data_loading/script_load_all_trips.py```
+Time to complete loading trips files: 1904.4382495880127
+Time to complete adding columns: 71.85755348205566
+Time to complete all trips data loading: 2228.53213095665
+
+python3 data_preprocessing/script_trip_duration_remove_outliers_all_trips.py
+sys:1: DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+Read csv completed. Time = 41.10229301452637
+For all trips, number of outliers = 8938 and percentage = 0.00105621515497399
+Time required to finish removing outliers from trip duration : 205.16493678092957
+
+ python3 data_analysis/script_separate_trips_covid.py
+sys:1: DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+Read csv completed. Time = 31.85250687599182
+Before covid: Save to csv completed. Time = 162.50528717041016
+During covid: Save to csv completed. Time = 67.52227759361267
+Time to complete trips separation: 261.88009428977966
+
+
+python3 data_analysis/data_grouping/script_group_trips_by_week.py 
+sys:1: DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+Read csv completed. Time = 40.04763221740723
+Transformation to time series completed. Time = 100.05472159385681
+Group trips by week completed. Time = 1.6687214374542236
+Save to csv completed. Time = 0.011386632919311523
+Time to complete data grouping: 141.78248596191406
+
+python3 data_analysis/data_grouping/script_group_trips_by_month.py 
+sys:1: DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+Read csv completed. Time = 37.64999866485596
+Transformation to time series completed. Time = 100.66694927215576
+Group trips by month completed. Time = 1.5107622146606445
+Save to csv completed. Time = 0.0042226314544677734
+Time to complete data grouping: 139.83196115493774
+
+python3 data_analysis/data_grouping/script_group_trips_by_day.py 
+sys:1: DtypeWarning: Columns (8) have mixed types.Specify dtype option on import or set low_memory=False.
+Read csv completed. Time = 38.42503118515015
+Transformation to time series completed. Time = 90.11483764648438
+Group trips by day completed. Time = 1.532224416732788
+Save to csv completed. Time = 0.08030843734741211
+Time to complete data grouping: 130.15242958068848
+
+python3 data_loading/script_load_trips_separated_by_year.py 
+Time to complete trips data loading for year 2018: 443.4300260543823
+Time to complete trips data loading for year 2019: 985.4648771286011
+Time to complete trips data loading for year 2020: 1687.5627753734589
+Time to complete trips data loading for year 2021: 522.2375364303589
+Time to complete trips data loading for year 2022: 141.03629422187805
+Time to complete trips data loading, separated by year: 3779.7315378189087
+
