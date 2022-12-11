@@ -42,7 +42,7 @@ class DataTreatment:
         
         for f in glob.glob(self.source_folder_path + filename):
             file_name = str(f).split('/')[-1]
-            print(file_name)
+            # print(file_name)
 
             destination_file_path = self.destination_folder_path + file_name
 

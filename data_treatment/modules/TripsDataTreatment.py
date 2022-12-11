@@ -1,7 +1,6 @@
 import pandas as pd
 import glob
 import os
-print(os.getcwd())
 import sys
 sys.path.append('./data_treatment')
 from modules.DataTreatment import DataTreatment
@@ -13,7 +12,7 @@ class TripsDataTreatment(DataTreatment):
         else:
             filename = self.filename + '.xlsx'
         
-        print(self.source_folder_path + filename)
+        # print(self.source_folder_path + filename)
 
         for f in glob.glob(self.source_folder_path + filename):
 
@@ -51,7 +50,7 @@ class TripsDataTreatment(DataTreatment):
             filename = self.filename + '.csv'
         
         for f in glob.glob(self.destination_folder_path + filename):
-            print(f)
+            # print(f)
             def fix_accents_names():
                 df = pd.read_csv(f)
                 self.fix_column_names(df)
