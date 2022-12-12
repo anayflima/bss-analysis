@@ -28,6 +28,7 @@ trips = dp.transform_to_time_series(trips, 'date', drop = True)
 trips_treated = trips.copy(deep=True)
 variable = 'tripduration'
 limit_outlier = 12*3600
+trips_treated = trips_treated['2018-2':]
 trips_treated[variable] = np.where(trips_treated[variable] > limit_outlier,
                                             np.nan, trips_treated[variable])
 number_outliers = len(trips[trips[variable] > limit_outlier])
