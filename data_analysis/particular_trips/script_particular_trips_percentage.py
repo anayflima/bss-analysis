@@ -29,7 +29,7 @@ pt.import_and_prepare_trips_data(file_path=file_path)
 first = time.time()
 print('Data preparation completed. Time = {time}'.format(time = first - start))
 
-pt.calculate_monthly_percentage(print=False)
+pt.calculate_monthly_percentage(print_logs=False)
 
 second = time.time()
 
