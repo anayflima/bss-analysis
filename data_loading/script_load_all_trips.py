@@ -25,6 +25,9 @@ file_filter = source_folder_path + 'trips_BikeSampa_*.csv'
 tl = TripsLoading()
 trips = tl.load_trips_files(file_filter)
 
+first = time.time()
+print('Time to complete loading trips files: {time}'.format(time = first - start))
+
 tst = TripStationsTreatment()
 
 trips = tst.find_station_ids_and_add_columns(trips)
@@ -34,7 +37,7 @@ trips = tst.find_trip_distance_and_add_column(trips)
 
 second = time.time()
 
-print('Time to complete adding columns: {time}'.format(time = second - start))
+print('Time to complete adding columns: {time}'.format(time = second - first))
 
 dp = DataPreparation()
 trips = dp.transform_to_datetime(trips, ['starttime', 'stoptime'])
