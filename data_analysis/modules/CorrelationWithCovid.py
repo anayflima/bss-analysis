@@ -134,9 +134,9 @@ class CorrelationWithCovid:
         
         if show_key_pandemic_moments:
             ax.axvline(pd.to_datetime('2020-03-24'), color="black", linestyle="--",  label='Lockdown in SP', linewidth = 3.0)
-            ax.axvline(pd.to_datetime('2021-11-01'), color="m", linestyle="--",  label='Fim das restrições', linewidth = 3.0)
             # ax.axvline(pd.to_datetime('2018-02-01'), color="black", linestyle="--",  label='Início dos dados')
         if show_all_phases:
+            ax.axvline(pd.to_datetime('2021-11-01'), color="m", linestyle="--",  label='Fim das restrições', linewidth = 3.0)
             ax.axvline(pd.to_datetime('2020-05-27'), color="purple", linestyle="--",  label='Plano SP de retomada consciente')
             ax.axvline(pd.to_datetime('2020-10-06'), color="green", linestyle="--",  label='Fase Verde')
             ax.axvline(pd.to_datetime('2020-11-30'), color="yellow", linestyle="--",  label='Fase Amarela')
@@ -168,7 +168,7 @@ class CorrelationWithCovid:
             
             ax2.set_ylim(0)
             ax2.set_ylabel(label_y2, color='k', fontsize=20, labelpad = 20)
-            ax2.legend(bbox_to_anchor = (0,  1), loc = 'lower left', fontsize = 18)
+            ax2.legend(bbox_to_anchor = (0,  0.7), loc = 'lower left', fontsize = 18)
             for label in (ax2.get_xticklabels() + ax2.get_yticklabels()):
                 label.set_fontsize(16)
         else:
