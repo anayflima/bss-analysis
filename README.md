@@ -29,7 +29,7 @@ To run the script, execute the following command in the root repository:
 python3 data_treatment/script_trips_data_treatment.py
 ```
 
-### Trips Loading
+### Data Loading
 
 This step will aggregate all the data, originally divided by month, as well as prepare the data for the data analysis by adding some columns and converting the data to a time series format. It contains the following steps:
 
@@ -49,11 +49,23 @@ The resulting files will be moved to a folder called ```data/trips/loaded_trips`
 
 ### Data preprocessing
 
+This step will remove outliers from the data. It will:
+
+
+1. Set to null all the trip durations longer than 12 hours;
+2. Remove 2018, January data.
+
+To execute the data preprocessing flow, you can run:
+
 ```
 python3 data_preprocessing/script_trip_duration_remove_outliers_all_trips.py
 ```
 
+The resulting files will be moved to a folder called ```data/trips/preprocessed```.
+
 ### Data grouping
+
+The original data contains the information of individual trips. For some parts of the posterior data analysis, it is important to group the data by day, week, and month. The following scripts use the data from the ```data/trips/preprocessed``` folder, group them, and move the results to the ```data/trips/preprocessed/grouped``` folder.
 
 ```
 python3 data_analysis/data_grouping/script_group_trips_by_day.py
@@ -66,6 +78,8 @@ python3 data_analysis/data_grouping/script_group_trips_by_month.py
 ```
 
 ### Data separation
+
+In some parts of the data analysis, we will need to compare some behaviors before and after the beginning of the COVID-19 pandemic in São Paulo. For this, we created a script that separates all trips into two files, one containing data before the pandemic and another one containing data during the pandemic. You can easily modify the start date of COVID-19 by changing the corresponding variables in the `.env` file.
 
 ```
 python3 data_analysis/script_separate_trips_covid.py
