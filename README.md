@@ -8,6 +8,14 @@ To be able to run the modules and scripts provided, it is necessary to have exte
 
 The modules of this repository are basically divided into two main steps: Data Treatment and Data Analysis. A summary of each step's flow will be explained in the next sections.
 
+## Virtual Environment
+
+In order to create a Python virtual environment containing all libraries required for this project, run the following script:
+
+```
+./venv.sh
+```
+
 ## Data Treatment
 
 To facilitate the reproduction of the complete data treatment and data preprocessing steps, scripts ```.py``` that use the modules created were made available. Instructions explaining each of them are described in the correspondent subsections below.
