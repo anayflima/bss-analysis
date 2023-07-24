@@ -17,27 +17,34 @@ class CorrelationWithCovid:
         self.destination_folder_path = data_folder + destination_folder_path
     
     def import_and_prepare_covid_data(self,
-            file_path = 'covid/grouped/covid_grouped_by_{frequency}_mean.csv'):
+            file_path = 'covid/grouped/covid_grouped_by_{frequency}_mean.csv',
+            moving_average=False):
         file_path = file_path.format(frequency = self.frequency)
         covid_data = pd.read_csv(self.data_folder + file_path)     
         dp = DataPreparation()
         covid_data = dp.transform_to_datetime(covid_data, ['date'])
         covid_data = dp.transform_to_time_series(covid_data, 'date', drop=True)
+        if moving_average:
+            # calculate moving average
+            covid_data = covid_data.rolling(30).mean()
         self.covid_data = covid_data
     
     def import_and_prepare_trips_data(self,
-            file_path = 'trips/preprocessed/grouped/trips_grouped_by_{frequency}_mean.csv', period = 'all'):
+            file_path = 'trips/preprocessed/grouped/trips_grouped_by_{frequency}_mean.csv',
+            period = 'all', moving_average=False):
         file_path = file_path.format(frequency = self.frequency)
         trips = pd.read_csv(self.data_folder + file_path)  
         dp = DataPreparation()
         trips = dp.transform_to_datetime(trips, ['date'])
         trips = dp.transform_to_time_series(trips, 'date', drop = True)
-        trips = trips['2018-02':]
         if period == 'before':
             trips = trips[:os.environ['LAST_DAY_BEFORE_COVID']]
         elif period == 'during':
             # trips = trips[os.environ['FIRST_DAY_COVID']:]
             trips = trips['2019-05':]
+        if moving_average:
+            # calculate moving average
+            trips = trips.rolling(30).mean()
         self.trips = trips
     
     def merge_trips_and_covid_data(self):
@@ -118,9 +125,26 @@ class CorrelationWithCovid:
         ax.axvspan(start, end, facecolor=color, alpha=0.1)
         ax.set_xlim(x_left, x_right)
 
-    def plot_variable_and_covid_together(self, variable, covid_variables, show_key_pandemic_moments = True, show_all_phases = False, save = False):
+    def plot_variable_and_covid_together(self, variable, covid_variables,
+                                         show_key_pandemic_moments = True,
+                                         show_all_phases = False, save = False,
+                                         variable_label = '',
+                                         variable_legend = '',
+                                         covid_variables_label = [],
+                                         title = ''):
         if not isinstance(covid_variables, list):
             covid_variables = [covid_variables]
+        
+        if variable_label == '':
+            variable_label = variable
+        
+        if variable_legend == '':
+            variable_legend = variable_label
+            if variable_legend == '':
+                variable_legend = variable
+        
+        if covid_variables_label == []:
+            covid_variables_label = covid_variables
         
         variables = [variable] + covid_variables
         trips_and_covid_plot = self.trips_and_covid[:].filter(variables)
@@ -130,10 +154,10 @@ class CorrelationWithCovid:
         fig.set_figheight(10)
 
         # ax.plot(trips_and_covid_plot.index, trips_and_covid_plot[variable], 'g', marker = 'o', label = variable)
-        ax.plot(trips_and_covid_plot.index, trips_and_covid_plot[variable], 'g', label = variable)
+        ax.plot(trips_and_covid_plot.index, trips_and_covid_plot[variable], 'g', label = variable_legend)
         
         if show_key_pandemic_moments:
-            ax.axvline(pd.to_datetime('2020-03-24'), color="black", linestyle="--",  label='Lockdown in SP', linewidth = 3.0)
+            ax.axvline(pd.to_datetime('2020-03-24'), color="black", linestyle="--",  label='Início de medidas restritivas em SP (2020-03-24)', linewidth = 3.0)
             # ax.axvline(pd.to_datetime('2018-02-01'), color="black", linestyle="--",  label='Início dos dados')
         if show_all_phases:
             ax.axvline(pd.to_datetime('2021-11-01'), color="m", linestyle="--",  label='Fim das restrições', linewidth = 3.0)
@@ -144,50 +168,61 @@ class CorrelationWithCovid:
             ax.axvline(pd.to_datetime('2021-08-17'), color="green", linestyle="--",  label='Fase Verde')
             # ax.axvline(pd.to_datetime('2022-01-15'), color="m", linestyle="--",  label='Quebra')
         
-        # Verify if a secondary axis is necessary 
+        if len(covid_variables) != 0 and show_all_phases:
+            x = 1.15
+        else:
+            if show_all_phases:
+                y_covid = 0.3
+                x = 1
+            else:
+                x = 0
+        
+        if show_all_phases:
+            y_covid = 0.3
+        else:
+            y_covid = 0.7
+
+        # Verify if a secondary axis is necessary
         if len(covid_variables) > 0:
             ax2 = ax.twinx()
             if (len(covid_variables) > 1):
-                variable1 = 'new_cases_ma'
-                variable2 = 'new_deaths_ma'
                 ax2.plot(trips_and_covid_plot.index,
-                        trips_and_covid_plot[variable2] * 30, 'r-',
-                        label = variable2)
+                        trips_and_covid_plot[covid_variables[1]] * 30, 'r-',
+                        label = covid_variables_label[1])
                 ax2.plot(trips_and_covid_plot.index,
-                        trips_and_covid_plot[variable1], 'b-',
-                        label = variable1)
-                label_y2 =  variable1 + " / " + variable2 + ' * 30'
-                title = "'{variable}' vs '{variable1} and {variable2}'".format(variable = variable,
-                                            variable1 = variable1, variable2 = variable2)
+                        trips_and_covid_plot[covid_variables[0]], 'b-',
+                        label = covid_variables_label[0])
+                label_y2 =  'Número de casos' + " \n " + 'Número de mortes' + ' * 30'
+                if title == '':
+                    title = "'{variable}' vs '{variable1} vs {variable2}'".format(variable = variable_label,
+                        variable1 = covid_variables_label[0], variable2 = covid_variables_label[1])
             else:
                 covid_variable = covid_variables[0]
                 ax2.plot(trips_and_covid_plot.index,
                         trips_and_covid_plot[covid_variable], 'b-')
                 label_y2 = covid_variable
-                title = "'{variable}' vs '{covid_variable}'".format(variable = variable, covid_variable = covid_variable)
+                if title == '':
+                    title = "'{variable}' vs '{covid_variable}'".format(variable = variable_label,
+                                        covid_variable = covid_variables_label[0])
             
             ax2.set_ylim(0)
             ax2.set_ylabel(label_y2, color='k', fontsize=20, labelpad = 20)
-            ax2.legend(bbox_to_anchor = (0,  0.7), loc = 'lower left', fontsize = 18)
+            ax2.legend(bbox_to_anchor = (x,  y_covid), loc = 'lower left', fontsize = 18)
             for label in (ax2.get_xticklabels() + ax2.get_yticklabels()):
                 label.set_fontsize(16)
         else:
-            title = "'{variable}'".format(variable = variable)
-        
+            if title == '':
+                title = "'{variable}'".format(variable = variable)
         
         ax.set_ylim(0)
-        ax.set_xlabel('Date', fontsize=20, labelpad = 20)
-        ax.set_ylabel(variable, color='k', fontsize=20, labelpad = 20)
-        if len(covid_variables) == 0:
-            lgd = ax.legend(bbox_to_anchor = (0, 1), loc = 'upper left', fontsize = 18)
-        else:
-            lgd = ax.legend(bbox_to_anchor = (0, 1), loc = 'upper left', fontsize = 18)
+        # ax.set_xlabel('Date', fontsize=20, labelpad = 20)
+        ax.set_ylabel(variable_label, color='k', fontsize=20, labelpad = 20)
         
+        lgd = ax.legend(bbox_to_anchor = (x, 1), loc = 'upper left', fontsize = 18)
         # Set tick font size
         for label in (ax.get_xticklabels() + ax.get_yticklabels()):
             label.set_fontsize(16)
-        
-        
+    
         # set monthly locator
         ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
         # set formatter
