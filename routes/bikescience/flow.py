@@ -217,6 +217,10 @@ def flow_map(fmap, od_df, grid, stations, minimum=-1, maximum=-1, show=4, radius
     filtered = filtered[((filtered['trip counts'] >= minimum) & (filtered['trip counts'] <= maximum))]
 
     shown_trips = 0
+
+
+    print('filtered')
+    print(filtered)
     
     for idx, row in filtered.iterrows():
         num_trips = row['trip counts']
@@ -225,10 +229,15 @@ def flow_map(fmap, od_df, grid, stations, minimum=-1, maximum=-1, show=4, radius
         weight = math.ceil( (num_trips-minimum)/maximum * 10)
         if weight == 0: weight = 1
         
-        o1 = row['origin'].y
-        o2 = row['origin'].x
-        d1 = row['destination'].y
-        d2 = row['destination'].x
+        # o1 = row['origin'].y
+        # o2 = row['origin'].x
+        # d1 = row['destination'].y
+        # d2 = row['destination'].x
+
+        o1 = row['start_lat']
+        o2 = row['start_lon']
+        d1 = row['end_lat']
+        d2 = row['end_lon']
         
         if language_en:
             text_plot = str(num_trips) + ' bike trips'
