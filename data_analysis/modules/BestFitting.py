@@ -24,9 +24,9 @@ class BestFitting:
             ax.axvspan(start, end, facecolor=color, alpha=0.1, label = label)
         ax.set_xlim(x_left, x_right)
 
-    def find_best_plot_fit(self, trips, variable,
-                           break_dates = {os.environ['FIRST_DAY_COVID'] : "Lockdown in SP (" + str(os.environ['FIRST_DAY_COVID']) + ")"},
-                                        poly_degree = 1, save = True, filename = '', analysis = False):
+    def find_best_plot_fit(self, trips, variable, variable_label = '', 
+                           break_dates = {os.environ['FIRST_DAY_COVID'] : "Início de medidas restritivas em SP (" + str(os.environ['FIRST_DAY_COVID']) + ")"},
+                                        poly_degree = 1, save = True, title = '', analysis = False, plot_lines = True, paint=False):
         plt.clf()
         plt.figure(figsize =(12, 8))
         df = trips.copy(deep=True)
@@ -36,6 +36,9 @@ class BestFitting:
         ys = []
         coeffs = []
         y_hats = []
+
+        if variable_label == '':
+            variable_label = variable
 
         
         keys = list(break_dates.keys())
@@ -71,8 +74,6 @@ class BestFitting:
         fig.set_figwidth(20)
         fig.set_figheight(10)
 
-        # '2020-10-06': 'Fase Verde'
-        # '2020-11-30': 'Fase Amarela',
 
         # self.alt_bands(start = pd.to_datetime('2020-10-06'), end = pd.to_datetime('2020-11-30'), color= 'green')
 
@@ -88,12 +89,13 @@ class BestFitting:
                     extended_y_hat = np.append(extended_y_hat, [None]*len(xs[j]))
             y_hats[i] = extended_y_hat
         
-        if analysis:
-            for y_hat in y_hats:
-                line = plt.plot(trips[keys[0]:].index,y_hat)
-        else:
-            for y_hat in y_hats:
-                line = plt.plot(trips[:].index,y_hat)
+        if plot_lines:
+            if analysis:
+                for y_hat in y_hats:
+                    line = plt.plot(trips[keys[0]:].index,y_hat)
+            else:
+                for y_hat in y_hats:
+                    line = plt.plot(trips[:].index,y_hat)
         plt.ylim(bottom=0)
 
         # plt.xlim(left=datetime.date(2018,1,1))
@@ -103,13 +105,16 @@ class BestFitting:
         #             label=df.index[0].strftime('%Y-%m-%d'))
 
         for i in range(len(break_dates)):
-            ax.axvline(pd.to_datetime(keys[i]), color=colors[i+1],
+            if break_dates[keys[i]] == '':
+                 ax.axvline(pd.to_datetime(keys[i]), color=colors[i+1],
+                                    linestyle="--",  label = keys[i])
+            else:
+                ax.axvline(pd.to_datetime(keys[i]), color=colors[i+1],
                                     linestyle="--",  label=break_dates[keys[i]] + " (" + keys[i] +")")
+           
 
-        # '2020-05-27': 'Plano SP de retomada consciente', 
-        # '2020-10-06': 'Fase Verde', 
 
-        if analysis:
+        if analysis and paint:
             self.alt_bands(start = '2020-05-27', end = '2020-10-06', color= 'orange', label = 'Retomada das atividades')
             self.alt_bands(start = '2022-01-10', end = '2022-04-30', color= 'orange', label = '')
             self.alt_bands(start = '2020-10-06', end = '2020-11-30', color= 'green', label = 'Durante a Fase Verde')
@@ -124,28 +129,22 @@ class BestFitting:
         # set font and rotation for date tick labels
         plt.gcf().autofmt_xdate()
         
-        # '2021-02-06': 'Fase Vermelha',
-               # '2021-03-01': 'Fase Laranja',
-               # '2021-03-06': 'Fase Vermelha',
-               # '2021-03-15': 'Fase Emergencial',
-               # '2021-04-12': 'Fase Vermelha',
-        # '2021-08-17': "Fase Verde",
-        # '2021-11-01': 'Fim das restrições'
         # set font and rotation for date tick labels
         plt.gcf().autofmt_xdate()
 
-        ax.set_xlabel('date', color='k', fontsize=22, labelpad = 10)
-        ax.set_ylabel('{variable}'.format(variable = variable), color='k', fontsize=22, labelpad = 10)
+        # ax.set_xlabel('date', color='k', fontsize=22, labelpad = 10)
+        ax.set_ylabel('{variable}'.format(variable = variable_label), color='k', fontsize=22, labelpad = 10)
 
-        title = 'Linear fit for {variable} variable'.format(variable = variable)
+        if title == '':
+            title = "Regressão linear na variável '{variable}'".format(variable = variable_label)
         for label in (ax.get_xticklabels() + ax.get_yticklabels()):
             label.set_fontsize(16)
         plt.title(title, size=28, pad = 15)
         # lgd = ax.legend(bbox_to_anchor=(1, 1), loc='upper left', fontsize = 18)
-        lgd = ax.legend(bbox_to_anchor=(0, 1), loc='upper left', fontsize = 18)
+        lgd = ax.legend(bbox_to_anchor=(1, 1), loc='upper left', fontsize = 18)
         # ax.legend(loc = 'lower right',fontsize = 22)
         # ax.legend(loc = 'upper left',fontsize = 22)
         if save:
-            file = variable + '_' + str(list(break_dates.keys())) + '_' + str(poly_degree) + '.png'
+            file = variable + '_' + str(list(break_dates.keys())) + '_lines' +str(plot_lines)+ '_'+  str(poly_degree) + '.png'
             plt.savefig(self.destination_folder_path + file, bbox_extra_artists=(lgd,), bbox_inches='tight')
         return coeffs

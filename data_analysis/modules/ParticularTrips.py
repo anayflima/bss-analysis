@@ -242,7 +242,7 @@ class ParticularTrips:
         for variable in list(monthly_percentage.columns):
             self.plot_percentage(monthly_percentage, variable)
 
-    def plot_percentage(self, df, variable, phases = True, save = True):
+    def plot_percentage(self, df, variable, phases = True, save = True, title = '', legend_y_position=1):
         fig, ax = plt.subplots()
         fig.set_figwidth(20)
         fig.set_figheight(10)
@@ -252,7 +252,7 @@ class ParticularTrips:
 
         if phases:
             ax.axvline(pd.to_datetime('2020-03-24'), color="black", linestyle="--", 
-                        label='Início do lockdown em SP (2020-03-24)')
+                        label='Início de medidas restritivas em SP (2020-03-24)')
         
         # ax.xticks(fontsize = 20)
 
@@ -266,14 +266,17 @@ class ParticularTrips:
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
 
-        title = "Evolução das porcentagens de viagens da variável '{variable}'".format(variable = variable)
+        if title == '':
+            title = "Evolução das porcentagens de viagens da variável '{variable}'".format(variable = variable)
+        
         ax.axes.set_title(title,fontsize=27, pad = 15)
-        ax.set_xlabel('Date',fontsize=25, labelpad = 10)
-        ax.set_ylabel('Percent of trips (%)',fontsize=25, labelpad = 10)
+        # ax.set_xlabel('Date',fontsize=25, labelpad = 10)
+        ax.set_ylabel('Porcentagem de viagens (%)',fontsize=25, labelpad = 10)
         
         plt.ylim(bottom=0)
 
-        ax.legend(bbox_to_anchor=(0, 1), loc='upper left', fontsize=20)
+        # ax.legend(bbox_to_anchor=(0, 0.1), loc='upper left', fontsize=20)
+        ax.legend(bbox_to_anchor=(0, legend_y_position), loc='upper left', fontsize=20)
         if save:
             filename = variable +'.png'
             plt.savefig(self.data_folder + 'charts/particular_trips/'+filename)
@@ -288,10 +291,9 @@ class ParticularTrips:
         # from 0 to 12 hours (3600*12 seconds), with step of 20 minutes
         bins = list(range(0,limit_bins_seconds,step_seconds))
 
-        # fig, ax = plt.subplots()
-
         sns.set(rc={'figure.figsize':(20,11)})
         ax = sns.histplot(data=self.trips[variable], bins = bins, stat='percent')
+        
         for i in ax.containers:
             ax.bar_label(i,fmt='%.1f', fontsize=25)
         
@@ -299,16 +301,11 @@ class ParticularTrips:
         ax.set_xticks(range(0,limit_bins_seconds,step_seconds), size = 20)
         figure(figsize=(12, 6), dpi=80)
 
-        # show y axis labels in minutes, rather than in seconds
-
         ax.set_ylim(bottom = 0, top = 70)
 
-        # ax.set(xlabel='Trip duration (min)', ylabel='Percent of trips (%)', fontsize=20)
-        # ax.set(title='Trip duration distribution', fontsize=30)
-
-        ax.axes.set_title('Trip duration variable distribution',fontsize=30, pad = 15)
-        ax.set_xlabel('Trip duration (min)',fontsize=25, labelpad = 10)
-        ax.set_ylabel('Percent of trips (%)',fontsize=25, labelpad = 10)
+        ax.axes.set_title('Distribuição da duração das viagens',fontsize=30, pad = 15)
+        ax.set_xlabel('Tempo de duração das viagens (min)',fontsize=25, labelpad = 15)
+        ax.set_ylabel('Porcentagem de viagens (%)',fontsize=25, labelpad = 15)
 
         ax.set_yticklabels(ax.get_yticks(), size=25)
 
@@ -316,13 +313,6 @@ class ParticularTrips:
 
         ax.xaxis.set_major_formatter(FuncFormatter(lambda x, _: x//60))
 
-        # ax.tick_params(labelsize=20)
-
-        # if period != 'all' and day != '':
-        # ax.set(title='Trip duration distribution ' + period + ' covid' + ' for ' + day)
-        # else:
-        #     ax.set(title='Trip duration distribution')
-        # # plt.figure(figsize=(20,6))
         if save:
             ax.figure.savefig(self.data_folder + 'charts/histograms/tripduration_' +self.period_covid+'_covid.png', bbox_inches='tight')
     
