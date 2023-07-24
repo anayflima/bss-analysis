@@ -8,7 +8,9 @@ import os
 import sys
 sys.path.append('./data_analysis')
 
-if 'data_analysis' in os.getcwd():
+if 'statistical_tests' in os.getcwd():
+    data_folder = './../../data/'
+elif 'data_analysis' in os.getcwd():
     data_folder = '../data/'
 else:
     data_folder = './data/'
