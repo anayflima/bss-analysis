@@ -45,11 +45,11 @@ trips = dp.transform_to_time_series(trips, 'starttime')
 
 print(list(trips.columns))
 
-assert list(trips.columns) == ['tripduration', 'start_station_name_old',
+assert set(list(trips.columns)) == set(['tripduration', 'start_station_name_old',
        'start_station_id', 'starttime', 'end_station_name_old', 'end_station_id',
        'stoptime', 'birth_year', 'age', 'per_day', 'hour', 'week_day',
        'weekend', 'holiday','start_station_name','end_station_name',
-       'lat_start', 'lon_start','lat_end', 'lon_end', 'distance']
+       'lat_start', 'lon_start','lat_end', 'lon_end', 'distance'])
 
 trips.to_csv(destination_folder_path + 'all_trips.csv')
 # trips.to_csv(destination_folder_path + 'trips_few.csv')

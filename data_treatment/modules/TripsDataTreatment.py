@@ -37,6 +37,32 @@ class TripsDataTreatment(DataTreatment):
             df.rename(columns={'initial_station_name': 'start_station_name'}, inplace=True)
         if 'final_station_name' in df.columns:
             df.rename(columns={'final_station_name': 'end_station_name'}, inplace=True)
+        # for columns in spanish (new data of 2022)
+        if 'id_recorrido' in df.columns:
+            df.rename(columns={'id_recorrido': 'trip_id'}, inplace=True)
+        if 'duracion_recorrido' in df.columns:
+            df.rename(columns={'duracion_recorrido': 'duration_seconds'}, inplace=True)
+        if 'nombre_estacion_origen' in df.columns:
+            df.rename(columns={'nombre_estacion_origen': 'start_station_name'}, inplace=True)
+        if 'fecha_origen_recorrido' in df.columns:
+            df.rename(columns={'fecha_origen_recorrido': 'start_date'}, inplace=True)
+        if 'fecha_destino_recorrido' in df.columns:
+            df.rename(columns={'fecha_destino_recorrido': 'end_date'}, inplace=True)
+        if 'nombre_estacion_destino' in df.columns:
+            df.rename(columns={'nombre_estacion_destino': 'end_station_name'}, inplace=True)
+        if 'lat_estacion_origen' in df.columns:
+            df.rename(columns={'lat_estacion_origen': 'initial_station_latitude'}, inplace=True)
+        if 'long_estacion_origen' in df.columns:
+            df.rename(columns={'long_estacion_origen': 'initial_station_longitude'}, inplace=True)
+        if 'lat_estacion_destino' in df.columns:
+            df.rename(columns={'lat_estacion_destino': 'final_station_latitude'}, inplace=True)
+        if 'long_estacion_destino' in df.columns:
+            df.rename(columns={'long_estacion_destino': 'final_station_longitude'}, inplace=True)
+        if 'id_estacion_origen' in df.columns:
+            df.rename(columns={'id_estacion_origen': 'start_station_id'}, inplace=True)
+        if 'id_estacion_destino' in df.columns:
+            df.rename(columns={'id_estacion_destino': 'end_station_id'}, inplace=True)
+        
     
     def padronize_dfs(self):
         '''

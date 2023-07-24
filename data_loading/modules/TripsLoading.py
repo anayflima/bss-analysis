@@ -38,7 +38,11 @@ class TripsLoading():
                             'initial_station_latitude',
                             'initial_station_longitude',
                             'final_station_latitude',
-                            'final_station_longitude'], axis = 1, errors = 'ignore')
+                            'final_station_longitude',
+                            'direccion_estacion_origen',
+                            'direccion_estacion_destino',
+                            'id_usuario',
+                            'modelo_bicicleta'], axis = 1, errors = 'ignore')
         return trips
 
     def load_trips_files(self, file_filter, show=False):

@@ -40,6 +40,9 @@ class TripStationsTreatment:
         return trips
     
     def find_station_ids_and_add_columns(self, trips):
+        trips = trips.drop(['start_station_id',
+                            'end_station_id'], axis = 1, errors = 'ignore')
+        
         start_station_id = trips['start_station_name'].apply(self.find_individual_station_id)
 
         index = trips.columns.get_loc('start_station_name') + 1
