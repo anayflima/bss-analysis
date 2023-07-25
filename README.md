@@ -88,17 +88,12 @@ You can run this script both to join the yearly trips files in the loaded_trips 
 
 ### Data grouping
 
-The original data contains the information of individual trips. For some parts of the posterior data analysis, it is important to group the data by day, week, and month. The following scripts use the data from the ```data/trips/preprocessed``` folder, group them, and move the results to the ```data/trips/preprocessed/grouped``` folder.
+The original data contains information about individual trips. For some parts of the posterior data analysis, it is important to group the data by day, week, and month. The following script use the data from the ```data/trips/preprocessed``` folder, groups it, and moves the results to the ```data/trips/preprocessed/grouped``` folder.
 
 ```
-python3 data_analysis/data_grouping/script_group_trips_by_day.py
+python3 data_analysis/data_grouping/script_group_trips_by_day_week_month.py
 ```
-```
-python3 data_analysis/data_grouping/script_group_trips_by_week.py 
-```
-```
-python3 data_analysis/data_grouping/script_group_trips_by_month.py
-```
+
 
 ### Data separation
 
