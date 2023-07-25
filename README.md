@@ -13,7 +13,7 @@ The modules of this repository are basically divided into two main steps: Data T
 In order to create a Python virtual environment containing all libraries required for this project, run the following script:
 
 ```
-./venv.sh
+. venv.sh
 ```
 
 ## Data Treatment
@@ -69,7 +69,22 @@ To execute the data preprocessing flow, you can run:
 python3 data_preprocessing/script_trip_duration_remove_outliers_all_trips.py
 ```
 
+To run the same script for trips separated by year, run: (For this to work, you need to have run the load_trips script separately for each year, generating files in the format trips_{year}.csv, like trips_2021.csv)
+
+```
+python3 data_preprocessing/script_trip_duration_remove_outliers.py
+```
+
 The resulting files will be moved to a folder called ```data/trips/preprocessed```.
+
+If you ran the load trips and remove outliers scripts separated by year, you can join the yearly trips files in a single file (all_trips.csv) running the following script:
+
+```
+python3 data_loading/script_join_trips.py
+```
+
+You can run this script both to join the yearly trips files in the loaded_trips folder and in the preprocessed folder. In order to do so, you only need to change the folder_path variable to line 15 or 16 of the script command, respectively.
+
 
 ### Data grouping
 
@@ -92,6 +107,10 @@ In some parts of the data analysis, we will need to compare some behaviors befor
 ```
 python3 data_analysis/script_separate_trips_covid.py
 ```
+
+<!-- ## TO DO
+
+Write about COVID data -->
 
 ## Data Analysis
 
