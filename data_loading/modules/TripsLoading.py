@@ -2,9 +2,17 @@ import glob
 import pandas as pd
 import holidays
 import numpy as np
+from datetime import datetime
+import os
+
+# to import the env variables:
+from dotenv import load_dotenv
+load_dotenv()
+
 class TripsLoading():
     def __init__(self):
-        years = range(2018, 2022)
+        last_year = datetime.strptime(os.environ['LAST_DAY_TRIPS'], '%Y-%m-%d').year
+        years = range(2018, last_year + 1)
         sp_holidays = holidays.BR(state='SP', years=years)
         sp_holidays = [pd.Period(freq='d', year=d.year, month=d.month, day=d.day)
                         for d in sp_holidays]
