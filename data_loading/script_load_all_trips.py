@@ -19,8 +19,11 @@ else:
 source_folder_path = data_folder + 'trips/treated_data/'
 destination_folder_path = data_folder + 'trips/loaded_trips/'
 
+'''
+Load only files that follow a specific name pattern:
+'''
 file_filter = source_folder_path + 'trips_BikeSampa_*.csv'
-# file_filter = source_folder_path + 'trips_BikeSampa_2018-01*.csv'
+# file_filter = source_folder_path + 'trips_BikeSampa_2022*.csv'
 
 tl = TripsLoading()
 trips = tl.load_trips_files(file_filter)
@@ -52,7 +55,7 @@ assert set(list(trips.columns)) == set(['tripduration', 'start_station_name_old'
        'lat_start', 'lon_start','lat_end', 'lon_end', 'distance'])
 
 trips.to_csv(destination_folder_path + 'all_trips.csv')
-# trips.to_csv(destination_folder_path + 'trips_few.csv')
+# trips.to_csv(destination_folder_path + 'trips_2022.csv')
 
 end = time.time()
 
